@@ -22,7 +22,8 @@ letter monogram, so the page never breaks.
 | `northgate-os.png` | NorthGate OS |
 | `north-shield.png` | North Shield |
 | `arc-os.png` | ARC.OS |
-| `bsch.png` | BSCH |
+| `bsch.png` | BSCH, left avatar |
+| `vortigen-support.png` | BSCH card, right avatar (what it is now) |
 | `beanz-app.png` | Beanz.APP |
 
 Square images look best. 256x256 or larger.

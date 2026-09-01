@@ -135,6 +135,9 @@ img{max-width:100%;display:block}
 .c-av::before{content:attr(data-mono);position:absolute;inset:0;display:grid;place-items:center;
   font-family:var(--display);font-weight:700;font-size:1.1rem;color:var(--ink-4)}
 .c-av img{position:relative;width:100%;height:100%;object-fit:cover}
+.c-av-pair{display:flex;align-items:center;gap:.7rem;margin-bottom:1.1rem}
+.c-av-pair .c-av{margin-bottom:0}
+.c-av-pair .arrow{font-family:var(--mono);font-size:.95rem;color:#6B452B;line-height:1;flex:none}
 .c-name{font-family:var(--display);font-weight:700;font-size:1.25rem;line-height:1.15;letter-spacing:-.01em;margin:0 0 .3rem}
 .c-sub{font-family:var(--mono);font-size:.66rem;letter-spacing:.16em;text-transform:uppercase;color:var(--dim);margin:0 0 .9rem}
 .c-desc{font-size:.92rem;line-height:1.6;color:var(--bone);opacity:.82;margin:0 0 1.25rem}
@@ -382,7 +385,11 @@ footer{
 
     <div class="row row-2">
       <article class="card">
-        <div class="c-av" data-mono="BS"><img src="assets/bsch.png" alt="" onerror="this.remove()"></div>
+        <div class="c-av-pair">
+          <div class="c-av" data-mono="BS"><img src="assets/bsch.png" alt="BSCH" onerror="this.remove()"></div>
+          <span class="arrow" aria-hidden="true">&rarr;</span>
+          <div class="c-av" data-mono="VS"><img src="assets/vortigen-support.png" alt="Vortigen Support" onerror="this.remove()"></div>
+        </div>
         <h3 class="c-name">BSCH</h3>
         <p class="c-sub">Now Vortigen Support</p>
         <p class="c-desc">The first bot I ever shipped, and the first I moved onto hardware I own. It runs on a Raspberry Pi under my desk and now handles support for Vortigen Industries.</p>
