@@ -135,6 +135,7 @@ img{max-width:100%;display:block}
 .c-av::before{content:attr(data-mono);position:absolute;inset:0;display:grid;place-items:center;
   font-family:var(--display);font-weight:700;font-size:1.1rem;color:var(--ink-4)}
 .c-av img{position:relative;width:100%;height:100%;object-fit:cover}
+.c-av img.av-top{object-position:top}
 .c-av-pair{display:flex;align-items:center;gap:.7rem;margin-bottom:1.1rem}
 .c-av-pair .c-av{margin-bottom:0}
 .c-av-pair .arrow{font-family:var(--mono);font-size:.95rem;color:#6B452B;line-height:1;flex:none}
@@ -267,7 +268,7 @@ footer{
     <div class="hero-grid">
       <div class="photo" data-mono="CB">
         <i></i><i></i><i></i><i></i>
-        <img src="assets/coolbeanz.png" alt="coolbeanz" onerror="this.remove()">
+        <img src="assets/my-pfp.webp" alt="coolbeanz" onerror="this.remove()">
       </div>
       <div>
         <p class="eyebrow">Who am I</p>
@@ -331,7 +332,7 @@ footer{
     <div class="row row-3 row-gold">
       <article class="card">
         <span class="tier">Site-47 stack</span>
-        <div class="c-av" data-mono="DA"><img src="assets/database-administrator.png" alt="" onerror="this.remove()"></div>
+        <div class="c-av" data-mono="DA"><img src="assets/site-47-modbot.png" alt="" onerror="this.remove()"></div>
         <h3 class="c-name">Database Administrator</h3>
         <p class="c-sub">Site-47 &middot; Moderation</p>
         <p class="c-desc">The site's whole moderation stack in one bot: bans, kicks, mutes, warns, and timeouts, every action written to a live case log, with an appeals panel staff could work straight from Discord.</p>
@@ -340,7 +341,7 @@ footer{
 
       <article class="card">
         <span class="tier">Site-47 stack</span>
-        <div class="c-av" data-mono="SM"><img src="assets/staff-manager.png" alt="" onerror="this.remove()"></div>
+        <div class="c-av" data-mono="SM"><img src="assets/47-staff-management-bot.png" alt="" onerror="this.remove()"></div>
         <h3 class="c-name">Staff Manager</h3>
         <p class="c-sub">Site-47 &middot; Human resources</p>
         <p class="c-desc">HR for the entire site. Promotions, infractions, and leaves of absence, plus a staff application pipeline that ran on Google Sheets so the whole team could review candidates in one place.</p>
@@ -349,7 +350,7 @@ footer{
 
       <article class="card">
         <span class="tier">Site-47 stack</span>
-        <div class="c-av" data-mono="DG"><img src="assets/database-guardian.png" alt="" onerror="this.remove()"></div>
+        <div class="c-av" data-mono="DG"><img class="av-top" src="assets/site47-guardian.webp" alt="" onerror="this.remove()"></div>
         <h3 class="c-name">Database Guardian</h3>
         <p class="c-sub">Site-47 &middot; AI assistant</p>
         <p class="c-desc">A self-hosted AI chatbot running on a local Ollama model, answering database and lore questions in-server with no external API and no per-message cost.</p>
@@ -359,7 +360,7 @@ footer{
 
     <div class="row row-3">
       <article class="card">
-        <div class="c-av" data-mono="NG"><img src="assets/northgate-os.png" alt="" onerror="this.remove()"></div>
+        <div class="c-av" data-mono="NG"><img src="assets/ngc-bot.png" alt="" onerror="this.remove()"></div>
         <h3 class="c-name">NorthGate OS</h3>
         <p class="c-sub">NorthGate Studios &middot; Server management</p>
         <p class="c-desc">The management bot for the main NorthGate server. It runs every ticket type in one place, from commissions and hiring to general questions, and posts the embeds that keep the server looking sharp.</p>
@@ -367,7 +368,7 @@ footer{
       </article>
 
       <article class="card">
-        <div class="c-av" data-mono="NS"><img src="assets/north-shield.png" alt="" onerror="this.remove()"></div>
+        <div class="c-av" data-mono="NS"><img src="assets/northshield.webp" alt="" onerror="this.remove()"></div>
         <h3 class="c-name">North Shield</h3>
         <p class="c-sub">NorthGate Studios &middot; Moderation</p>
         <p class="c-desc">Anti-larper and anti-spam moderation for the NGC map server, using an AI pass to catch the impersonation attempts that plain keyword filters always miss.</p>
@@ -375,7 +376,7 @@ footer{
       </article>
 
       <article class="card">
-        <div class="c-av" data-mono="AO"><img src="assets/arc-os.png" alt="" onerror="this.remove()"></div>
+        <div class="c-av" data-mono="AO"><img src="assets/arc-32-bot-pfp.png" alt="" onerror="this.remove()"></div>
         <h3 class="c-name">ARC.OS</h3>
         <p class="c-sub">ARC-32 &middot; Full site bot</p>
         <p class="c-desc">The complete administrative bot for ARC-32: server startups, deployments, and the full moderation stack, with every channel and role set through one setup command instead of a config file.</p>
@@ -386,9 +387,9 @@ footer{
     <div class="row row-2">
       <article class="card">
         <div class="c-av-pair">
-          <div class="c-av" data-mono="BS"><img src="assets/bsch.png" alt="BSCH" onerror="this.remove()"></div>
+          <div class="c-av" data-mono="BS"><img src="assets/bsch-bot-pfp.png" alt="BSCH" onerror="this.remove()"></div>
           <span class="arrow" aria-hidden="true">&rarr;</span>
-          <div class="c-av" data-mono="VS"><img src="assets/vortigen-support.png" alt="Vortigen Support" onerror="this.remove()"></div>
+          <div class="c-av" data-mono="VS"><img src="assets/vortigern_support.png" alt="Vortigen Support" onerror="this.remove()"></div>
         </div>
         <h3 class="c-name">BSCH</h3>
         <p class="c-sub">Now Vortigen Support</p>
@@ -397,7 +398,7 @@ footer{
       </article>
 
       <article class="card">
-        <div class="c-av" data-mono="BA"><img src="assets/beanz-app.png" alt="" onerror="this.remove()"></div>
+        <div class="c-av" data-mono="BA"><img src="assets/beanz-app-pfp.png" alt="" onerror="this.remove()"></div>
         <h3 class="c-name">Beanz.APP</h3>
         <p class="c-sub">Personal &middot; Installs to your account</p>
         <p class="c-desc">A bot that travels with me instead of living in one server. Notes, todos, and reminders anywhere on Discord, plus a watchdog that tells me the moment my Pi goes down.</p>
