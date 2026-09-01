@@ -1,0 +1,491 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>coolbeanz - bot developer</title>
+<meta name="description" content="coolbeanz: Discord bot developer, server creator, Roblox scripter, and server administrator.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#130C08;
+  --ink-2:#1B120C;
+  --ink-3:#2C1C13;
+  --ink-4:#3E2718;
+  --ember:#FF5A1F;
+  --gold:#E9B44C;
+  --blood:#D6331B;
+  --dim:#B78660;
+  --bone:#F3E7DC;
+  --display:"Chakra Petch",system-ui,sans-serif;
+  --body:"IBM Plex Sans",system-ui,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,monospace;
+  --pad:clamp(1.25rem,5vw,4.5rem);
+  --maxw:1180px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;background:var(--ink);color:var(--bone);
+  font-family:var(--body);font-size:16px;line-height:1.7;
+  -webkit-font-smoothing:antialiased;overflow-x:hidden;
+}
+body::before{
+  content:"";position:fixed;inset:0;pointer-events:none;z-index:1;
+  background:radial-gradient(80% 40% at 50% -12%,rgba(255,90,31,.10),transparent 70%);
+}
+body::after{
+  content:"";position:fixed;inset:0;pointer-events:none;z-index:2;opacity:.35;
+  background:repeating-linear-gradient(180deg,rgba(255,255,255,.018) 0 1px,transparent 1px 3px);
+}
+a{color:inherit}
+img{max-width:100%;display:block}
+
+/* ---------- top bar ---------- */
+.topbar{
+  position:fixed;top:0;left:0;right:0;z-index:20;
+  display:flex;justify-content:space-between;align-items:center;gap:1rem;
+  padding:.7rem var(--pad);
+  font-family:var(--mono);font-size:.66rem;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--dim);
+  background:rgba(19,12,8,.82);backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--ink-3);
+}
+.topbar b{color:var(--bone);font-weight:500}
+.pulse{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--ember);
+  margin-right:.5rem;vertical-align:middle;box-shadow:0 0 8px var(--ember)}
+
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 var(--pad);position:relative;z-index:3}
+
+/* ---------- hero ---------- */
+.hero{padding:9rem 0 5rem}
+.hero-grid{display:grid;grid-template-columns:220px 1fr;gap:clamp(1.5rem,4vw,3.5rem);align-items:start}
+.photo{position:relative;aspect-ratio:1;background:var(--ink-2);border:1px solid var(--ink-4)}
+.photo::before{
+  content:attr(data-mono);position:absolute;inset:0;display:grid;place-items:center;
+  font-family:var(--display);font-size:3.5rem;font-weight:700;color:var(--ink-4);letter-spacing:-.02em;
+}
+.photo img{position:relative;width:100%;height:100%;object-fit:cover}
+.photo i{position:absolute;width:12px;height:12px;border:1px solid var(--ember);z-index:2}
+.photo i:nth-child(1){top:-1px;left:-1px;border-right:0;border-bottom:0}
+.photo i:nth-child(2){top:-1px;right:-1px;border-left:0;border-bottom:0}
+.photo i:nth-child(3){bottom:-1px;left:-1px;border-right:0;border-top:0}
+.photo i:nth-child(4){bottom:-1px;right:-1px;border-left:0;border-top:0}
+
+.eyebrow{
+  font-family:var(--mono);font-size:.68rem;letter-spacing:.24em;text-transform:uppercase;
+  color:var(--ember);margin:0 0 1rem
+}
+.name{
+  font-family:var(--display);font-weight:700;
+  font-size:clamp(3rem,11vw,7rem);line-height:.88;letter-spacing:-.035em;
+  margin:0 0 1.25rem;text-transform:lowercase;
+}
+.roles{
+  font-family:var(--mono);font-size:.78rem;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--gold);margin:0 0 1.75rem;line-height:2
+}
+.roles span{white-space:nowrap}
+.roles em{color:var(--ink-4);font-style:normal;padding:0 .45rem}
+.bio{font-size:1.05rem;max-width:54ch;color:var(--bone);margin:0 0 1.5rem}
+.since{font-family:var(--mono);font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;color:var(--dim);margin:0}
+.since b{color:var(--gold);font-weight:500}
+
+/* ---------- sections ---------- */
+.section{padding:4.5rem 0;border-top:1px solid var(--ink-3)}
+.sec-head{display:flex;align-items:baseline;gap:1.25rem;margin:0 0 2.5rem}
+.sec-num{font-family:var(--mono);font-size:.68rem;letter-spacing:.2em;color:var(--ember);flex:none}
+.sec-title{
+  font-family:var(--display);font-weight:600;text-transform:uppercase;letter-spacing:.01em;
+  font-size:clamp(1.6rem,4vw,2.6rem);line-height:1;margin:0;flex:none
+}
+.sec-rule{flex:1;height:1px;background:var(--ink-4);transform-origin:left;transform:scaleX(0);transition:transform .7s cubic-bezier(.2,.7,.3,1)}
+.reveal.in .sec-rule{transform:scaleX(1)}
+
+.subhead{
+  font-family:var(--mono);font-size:.7rem;letter-spacing:.22em;text-transform:uppercase;
+  color:var(--dim);margin:0 0 1.5rem;padding-bottom:.6rem;border-bottom:1px solid var(--ink-3)
+}
+.subhead.spaced{margin-top:4rem}
+
+/* ---------- roster ---------- */
+.roster{list-style:none;margin:0;padding:0}
+.roster li{display:flex;align-items:baseline;gap:.9rem;padding:.85rem 0;border-bottom:1px solid var(--ink-3)}
+.roster li:last-child{border-bottom:0}
+.r-org{font-family:var(--display);font-weight:600;font-size:clamp(1.05rem,2.4vw,1.4rem);text-transform:uppercase;letter-spacing:.01em;flex:none}
+.r-fill{flex:1;min-width:1.5rem;border-bottom:1px dotted #5A3A24;transform:translateY(-.35em)}
+.r-role{font-family:var(--mono);font-size:.76rem;letter-spacing:.13em;text-transform:uppercase;color:var(--ember);text-align:right;flex:none}
+.former .r-role{color:var(--dim)}
+.note{max-width:62ch;color:var(--dim);margin:1.75rem 0 0;font-size:.97rem}
+
+/* ---------- project cards ---------- */
+.row{display:grid;gap:1.25rem;margin-bottom:1.25rem}
+.row-3{grid-template-columns:repeat(3,1fr)}
+.row-2{grid-template-columns:repeat(2,1fr)}
+
+.card{
+  position:relative;display:flex;flex-direction:column;
+  background:var(--ink-2);border:1px solid var(--ink-3);
+  padding:1.5rem;transition:border-color .3s,transform .3s,background .3s
+}
+.card:hover{border-color:var(--ember);transform:translateY(-3px)}
+.c-av{position:relative;width:56px;height:56px;flex:none;background:var(--ink);border:1px solid var(--ink-4);margin-bottom:1.1rem}
+.c-av::before{content:attr(data-mono);position:absolute;inset:0;display:grid;place-items:center;
+  font-family:var(--display);font-weight:700;font-size:1.1rem;color:var(--ink-4)}
+.c-av img{position:relative;width:100%;height:100%;object-fit:cover}
+.c-name{font-family:var(--display);font-weight:700;font-size:1.25rem;line-height:1.15;letter-spacing:-.01em;margin:0 0 .3rem}
+.c-sub{font-family:var(--mono);font-size:.66rem;letter-spacing:.16em;text-transform:uppercase;color:var(--dim);margin:0 0 .9rem}
+.c-desc{font-size:.92rem;line-height:1.6;color:var(--bone);opacity:.82;margin:0 0 1.25rem}
+.c-foot{margin-top:auto;display:flex;align-items:center;gap:.6rem;flex-wrap:wrap}
+.chip{
+  font-family:var(--mono);font-size:.6rem;letter-spacing:.18em;text-transform:uppercase;
+  padding:.3rem .55rem;border:1px solid currentColor;line-height:1
+}
+.chip::before{content:"";display:inline-block;width:5px;height:5px;border-radius:50%;
+  background:currentColor;margin-right:.5rem;vertical-align:middle;transform:translateY(-1px)}
+.chip-live{color:var(--ember)}
+.chip-retired{color:var(--blood);border-color:rgba(214,51,27,.45);background:rgba(214,51,27,.10)}
+.chip-retired::before{background:none;box-shadow:inset 0 0 0 1px currentColor}
+.chip-dev{color:var(--gold)}
+
+/* gold tier */
+.row-gold{gap:1.5rem;margin-bottom:2.5rem}
+.row-gold .card{
+  background:linear-gradient(170deg,rgba(233,180,76,.11),rgba(233,180,76,.02) 55%),var(--ink-2);
+  border-color:rgba(233,180,76,.42);
+  padding:2.5rem 2.25rem 2.25rem;
+  box-shadow:0 0 0 1px rgba(233,180,76,.06),0 22px 52px -30px rgba(233,180,76,.6);
+}
+.row-gold .card:hover{border-color:var(--gold);box-shadow:0 0 0 1px rgba(233,180,76,.18),0 26px 62px -28px rgba(233,180,76,.75)}
+.row-gold .c-av{width:96px;height:96px;border-color:rgba(233,180,76,.4);margin-bottom:1.6rem}
+.row-gold .c-av::before{color:rgba(233,180,76,.3);font-size:1.9rem}
+.row-gold .c-name{font-size:clamp(1.5rem,2.4vw,1.95rem);color:var(--gold);margin-bottom:.45rem}
+.row-gold .c-sub{font-size:.68rem;margin-bottom:1.2rem}
+.row-gold .c-desc{font-size:1rem;margin-bottom:1.9rem;opacity:.9}
+.tier{
+  position:absolute;top:0;right:0;
+  font-family:var(--mono);font-size:.58rem;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--ink);background:var(--gold);padding:.32rem .6rem;line-height:1
+}
+
+/* roblox banner */
+.banner{
+  display:block;text-decoration:none;position:relative;
+  background:linear-gradient(115deg,rgba(255,90,31,.13),transparent 60%),var(--ink-2);
+  border:1px solid var(--ink-4);padding:clamp(1.75rem,4vw,2.75rem);
+  transition:border-color .3s,transform .3s
+}
+.banner:hover{border-color:var(--ember);transform:translateY(-3px)}
+.banner h3{font-family:var(--display);font-weight:700;font-size:clamp(1.8rem,5vw,3rem);line-height:1;
+  letter-spacing:-.02em;text-transform:uppercase;margin:.6rem 0 .7rem}
+.banner p{color:var(--dim);margin:0 0 1.25rem;max-width:52ch;font-size:.95rem}
+.banner .go{font-family:var(--mono);font-size:.68rem;letter-spacing:.2em;text-transform:uppercase;color:var(--ember)}
+
+/* ---------- links ---------- */
+.links{display:grid;grid-template-columns:repeat(2,1fr);gap:1.25rem}
+.org{background:var(--ink-2);border:1px solid var(--ink-3);padding:1.5rem}
+.org h3{font-family:var(--display);font-weight:600;text-transform:uppercase;font-size:1.2rem;letter-spacing:.02em;margin:0 0 1.1rem}
+.org a{
+  display:flex;align-items:center;justify-content:space-between;gap:1rem;
+  font-family:var(--mono);font-size:.74rem;letter-spacing:.1em;text-transform:uppercase;
+  text-decoration:none;color:var(--dim);padding:.7rem 0;border-top:1px solid var(--ink-3);
+  transition:color .2s
+}
+.org a:hover{color:var(--ember)}
+.org a span:last-child{color:var(--ink-4);transition:color .2s}
+.org a:hover span:last-child{color:var(--ember)}
+
+/* ---------- commissions ---------- */
+.comm{list-style:none;margin:0 0 2.5rem;padding:0}
+.comm li{display:grid;grid-template-columns:110px 1fr;gap:1.5rem;align-items:start;
+  padding:1.15rem 0;border-bottom:1px solid var(--ink-3)}
+.comm .state{font-family:var(--mono);font-size:.64rem;letter-spacing:.18em;text-transform:uppercase;padding-top:.28rem}
+.comm .closed{color:var(--blood)}
+.comm .open{color:var(--ember)}
+.comm h3{font-family:var(--display);font-weight:600;font-size:1.1rem;text-transform:uppercase;letter-spacing:.02em;margin:0 0 .3rem}
+.comm p{margin:0;color:var(--dim);font-size:.94rem}
+.comm .closed-row h3{color:var(--dim)}
+
+.handle{
+  display:inline-flex;align-items:center;gap:.9rem;
+  background:var(--ink-2);border:1px solid var(--ember);padding:1.1rem 1.5rem;
+  font-family:var(--mono);font-size:clamp(.9rem,2.5vw,1.15rem);letter-spacing:.08em;color:var(--ember)
+}
+.handle small{font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:var(--dim)}
+
+footer{
+  border-top:1px solid var(--ink-3);padding:2.5rem 0 3.5rem;
+  font-family:var(--mono);font-size:.64rem;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-4);
+  display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap
+}
+
+/* ---------- reveal ---------- */
+.reveal{opacity:0;transform:translateY(18px);transition:opacity .7s ease,transform .7s cubic-bezier(.2,.7,.3,1)}
+.reveal.in{opacity:1;transform:none}
+
+/* ---------- responsive ---------- */
+@media(max-width:900px){
+  .hero{padding:7rem 0 3.5rem}
+  .hero-grid{grid-template-columns:150px 1fr;gap:1.5rem}
+  .row-3,.row-2,.links{grid-template-columns:1fr}
+  .row-gold .card{padding:1.5rem}
+  .roster li{flex-wrap:wrap;gap:.35rem}
+  .r-fill{display:none}
+  .r-role{text-align:left;flex:1 0 100%}
+}
+@media(max-width:560px){
+  .hero-grid{grid-template-columns:1fr}
+  .photo{max-width:170px}
+  .comm li{grid-template-columns:1fr;gap:.5rem}
+  .topbar{font-size:.58rem;letter-spacing:.14em}
+}
+@media(prefers-reduced-motion:reduce){
+  *{animation:none!important;transition:none!important}
+  .reveal{opacity:1;transform:none}
+  .sec-rule{transform:scaleX(1)}
+  html{scroll-behavior:auto}
+}
+:focus-visible{outline:2px solid var(--ember);outline-offset:3px}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <span>Personnel file <b>&middot; CB-02778</b></span>
+  <span><i class="pulse"></i>Status: Active</span>
+</div>
+
+<main class="wrap">
+
+  <!-- ===== WHO AM I ===== -->
+  <header class="hero">
+    <div class="hero-grid">
+      <div class="photo" data-mono="CB">
+        <i></i><i></i><i></i><i></i>
+        <img src="assets/coolbeanz.png" alt="coolbeanz" onerror="this.remove()">
+      </div>
+      <div>
+        <p class="eyebrow">Who am I</p>
+        <h1 class="name">coolbeanz</h1>
+        <p class="roles">
+          <span>Bot developer</span><em>/</em><span>Server creator</span><em>/</em><span>Roblox scripter</span><em>/</em><span>Staff manager</span><em>/</em><span>Administrator</span>
+        </p>
+        <p class="bio">
+          I build the systems that keep SCP roleplay servers running: moderation, HR,
+          ticketing, and the databases behind them. Eight bots shipped, four staff
+          postings held, and a Roblox game in development.
+        </p>
+        <p class="since">Joined Discord and SCP:RP on <b>27 August 2025</b></p>
+      </div>
+    </div>
+  </header>
+
+  <!-- ===== CURRENT POSTINGS ===== -->
+  <section class="section reveal">
+    <div class="sec-head">
+      <span class="sec-num">01</span>
+      <h2 class="sec-title">Current postings</h2>
+      <span class="sec-rule"></span>
+    </div>
+    <ul class="roster">
+      <li><span class="r-org">Vortigen Industries</span><span class="r-fill"></span><span class="r-role">Co-Owner</span></li>
+      <li><span class="r-org">NorthGate Studios</span><span class="r-fill"></span><span class="r-role">Senior Bot Developer</span></li>
+      <li><span class="r-org">ARC-32</span><span class="r-fill"></span><span class="r-role">Deputy Administrator</span></li>
+      <li><span class="r-org">Site-34</span><span class="r-fill"></span><span class="r-role">Secretary of the Vice Administrator</span></li>
+    </ul>
+  </section>
+
+  <!-- ===== FORMER POSTINGS ===== -->
+  <section class="section reveal">
+    <div class="sec-head">
+      <span class="sec-num">02</span>
+      <h2 class="sec-title">Former postings</h2>
+      <span class="sec-rule"></span>
+    </div>
+    <ul class="roster former">
+      <li><span class="r-org">Site-47</span><span class="r-fill"></span><span class="r-role">Office of the Administrator</span></li>
+    </ul>
+    <p class="note">
+      Site-47 is where I learned most of what I know. I served in the Office of the
+      Administrator and built the site's entire bot stack, from moderation and HR to
+      an in-server AI assistant. I left in August 2026, and those three systems are
+      still the work I am proudest of.
+    </p>
+  </section>
+
+  <!-- ===== PROJECTS ===== -->
+  <section class="section reveal">
+    <div class="sec-head">
+      <span class="sec-num">03</span>
+      <h2 class="sec-title">Projects</h2>
+      <span class="sec-rule"></span>
+    </div>
+
+    <p class="subhead">Discord bots</p>
+
+    <div class="row row-3 row-gold">
+      <article class="card">
+        <span class="tier">Site-47 stack</span>
+        <div class="c-av" data-mono="DA"><img src="assets/database-administrator.png" alt="" onerror="this.remove()"></div>
+        <h3 class="c-name">Database Administrator</h3>
+        <p class="c-sub">Site-47 &middot; Moderation</p>
+        <p class="c-desc">The site's whole moderation stack in one bot: bans, kicks, mutes, warns, and timeouts, every action written to a live case log, with an appeals panel staff could work straight from Discord.</p>
+        <div class="c-foot"><span class="chip chip-retired">Retired</span></div>
+      </article>
+
+      <article class="card">
+        <span class="tier">Site-47 stack</span>
+        <div class="c-av" data-mono="SM"><img src="assets/staff-manager.png" alt="" onerror="this.remove()"></div>
+        <h3 class="c-name">Staff Manager</h3>
+        <p class="c-sub">Site-47 &middot; Human resources</p>
+        <p class="c-desc">HR for the entire site. Promotions, infractions, and leaves of absence, plus a staff application pipeline that ran on Google Sheets so the whole team could review candidates in one place.</p>
+        <div class="c-foot"><span class="chip chip-retired">Retired</span></div>
+      </article>
+
+      <article class="card">
+        <span class="tier">Site-47 stack</span>
+        <div class="c-av" data-mono="DG"><img src="assets/database-guardian.png" alt="" onerror="this.remove()"></div>
+        <h3 class="c-name">Database Guardian</h3>
+        <p class="c-sub">Site-47 &middot; AI assistant</p>
+        <p class="c-desc">A self-hosted AI chatbot running on a local Ollama model, answering database and lore questions in-server with no external API and no per-message cost.</p>
+        <div class="c-foot"><span class="chip chip-retired">Retired</span></div>
+      </article>
+    </div>
+
+    <div class="row row-3">
+      <article class="card">
+        <div class="c-av" data-mono="NG"><img src="assets/northgate-os.png" alt="" onerror="this.remove()"></div>
+        <h3 class="c-name">NorthGate OS</h3>
+        <p class="c-sub">NorthGate Studios &middot; Server management</p>
+        <p class="c-desc">The management bot for the main NorthGate server. It runs every ticket type in one place, from commissions and hiring to general questions, and posts the embeds that keep the server looking sharp.</p>
+        <div class="c-foot"><span class="chip chip-live">Active</span></div>
+      </article>
+
+      <article class="card">
+        <div class="c-av" data-mono="NS"><img src="assets/north-shield.png" alt="" onerror="this.remove()"></div>
+        <h3 class="c-name">North Shield</h3>
+        <p class="c-sub">NorthGate Studios &middot; Moderation</p>
+        <p class="c-desc">Anti-larper and anti-spam moderation for the NGC map server, using an AI pass to catch the impersonation attempts that plain keyword filters always miss.</p>
+        <div class="c-foot"><span class="chip chip-live">Active</span></div>
+      </article>
+
+      <article class="card">
+        <div class="c-av" data-mono="AO"><img src="assets/arc-os.png" alt="" onerror="this.remove()"></div>
+        <h3 class="c-name">ARC.OS</h3>
+        <p class="c-sub">ARC-32 &middot; Full site bot</p>
+        <p class="c-desc">The complete administrative bot for ARC-32: server startups, deployments, and the full moderation stack, with every channel and role set through one setup command instead of a config file.</p>
+        <div class="c-foot"><span class="chip chip-live">Active</span></div>
+      </article>
+    </div>
+
+    <div class="row row-2">
+      <article class="card">
+        <div class="c-av" data-mono="BS"><img src="assets/bsch.png" alt="" onerror="this.remove()"></div>
+        <h3 class="c-name">BSCH</h3>
+        <p class="c-sub">Now Vortigen Support</p>
+        <p class="c-desc">The first bot I ever shipped, and the first I moved onto hardware I own. It runs on a Raspberry Pi under my desk and now handles support for Vortigen Industries.</p>
+        <div class="c-foot"><span class="chip chip-live">Active</span></div>
+      </article>
+
+      <article class="card">
+        <div class="c-av" data-mono="BA"><img src="assets/beanz-app.png" alt="" onerror="this.remove()"></div>
+        <h3 class="c-name">Beanz.APP</h3>
+        <p class="c-sub">Personal &middot; Installs to your account</p>
+        <p class="c-desc">A bot that travels with me instead of living in one server. Notes, todos, and reminders anywhere on Discord, plus a watchdog that tells me the moment my Pi goes down.</p>
+        <div class="c-foot"><span class="chip chip-live">Active</span></div>
+      </article>
+    </div>
+
+    <p class="subhead spaced">Current Roblox project</p>
+
+    <a class="banner" href="https://www.roblox.com/games/117233796538643/The-Last-Light" target="_blank" rel="noopener">
+      <span class="chip chip-dev">In development</span>
+      <h3>The Last Light</h3>
+      <p>A round-based survival game. Players hold a bunker through the night, and every round ends differently depending on what they chose to defend.</p>
+      <span class="go">Play on Roblox &rarr;</span>
+    </a>
+  </section>
+
+  <!-- ===== LINKS ===== -->
+  <section class="section reveal">
+    <div class="sec-head">
+      <span class="sec-num">04</span>
+      <h2 class="sec-title">Links</h2>
+      <span class="sec-rule"></span>
+    </div>
+    <div class="links">
+      <div class="org">
+        <h3>Vortigen Industries</h3>
+        <a href="https://discord.gg/4tcsnJyMgD" target="_blank" rel="noopener"><span>Support server</span><span>&rarr;</span></a>
+        <a href="https://vortigenindustries.com" target="_blank" rel="noopener"><span>vortigenindustries.com</span><span>&rarr;</span></a>
+      </div>
+      <div class="org">
+        <h3>NorthGate Studios</h3>
+        <a href="https://discord.gg/rbF9WWHVkW" target="_blank" rel="noopener"><span>Discord server</span><span>&rarr;</span></a>
+        <a href="https://northgate-studios.com/" target="_blank" rel="noopener"><span>northgate-studios.com</span><span>&rarr;</span></a>
+      </div>
+      <div class="org">
+        <h3>ARC-32</h3>
+        <a href="https://discord.gg/wAgNT29Zqu" target="_blank" rel="noopener"><span>Discord server</span><span>&rarr;</span></a>
+      </div>
+      <div class="org">
+        <h3>Site-34</h3>
+        <a href="https://discord.gg/Ey6zYtNAMh" target="_blank" rel="noopener"><span>Discord server</span><span>&rarr;</span></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== COMMISSIONS ===== -->
+  <section class="section reveal">
+    <div class="sec-head">
+      <span class="sec-num">05</span>
+      <h2 class="sec-title">How to commission me</h2>
+      <span class="sec-rule"></span>
+    </div>
+    <ul class="comm">
+      <li class="closed-row">
+        <span class="state closed">Closed</span>
+        <div><h3>Bot commissions</h3><p>I do not take personal bot commissions. Please go through Vortigen Industries.</p></div>
+      </li>
+      <li class="closed-row">
+        <span class="state closed">Closed</span>
+        <div><h3>Server development</h3><p>I do not take personal server development commissions. Please go through Vortigen Industries.</p></div>
+      </li>
+      <li class="closed-row">
+        <span class="state closed">Closed</span>
+        <div><h3>Roblox scripting</h3><p>I do not take Roblox game scripting commissions.</p></div>
+      </li>
+      <li>
+        <span class="state open">Open</span>
+        <div><h3>Anything else</h3><p>DM me. Be friendly rather than overly professional, otherwise I may decline.</p></div>
+      </li>
+    </ul>
+    <div class="handle"><small>Discord</small> @coolbeanz02778</div>
+  </section>
+
+  <footer>
+    <span>coolbeanz &middot; bot developer</span>
+    <span>Active since 27.08.2025</span>
+  </footer>
+
+</main>
+
+<script>
+(function(){
+  var els=document.querySelectorAll(".reveal");
+  if(!("IntersectionObserver" in window)){
+    els.forEach(function(e){e.classList.add("in")});
+    return;
+  }
+  var io=new IntersectionObserver(function(entries){
+    entries.forEach(function(en){
+      if(en.isIntersecting){en.target.classList.add("in");io.unobserve(en.target)}
+    })
+  },{rootMargin:"0px 0px -12% 0px"});
+  els.forEach(function(e){io.observe(e)});
+})();
+</script>
+</body>
+</html>
