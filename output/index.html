@@ -218,6 +218,9 @@ img{max-width:100%;display:block}
   font-family:var(--mono);font-size:clamp(.9rem,2.5vw,1.15rem);letter-spacing:.08em;color:var(--ember)
 }
 .handle small{font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:var(--dim)}
+.handles{display:flex;flex-wrap:wrap;gap:1rem}
+a.handle{text-decoration:none;transition:background .2s}
+a.handle:hover{background:var(--ink-3)}
 
 footer{
   border-top:1px solid var(--ink-3);padding:2.5rem 0 3.5rem;
@@ -470,7 +473,10 @@ footer{
         <div><h3>Anything else</h3><p>DM me. Be friendly rather than overly professional, otherwise I may decline.</p></div>
       </li>
     </ul>
-    <div class="handle"><small>Discord</small> @coolbeanz02778</div>
+    <div class="handles">
+      <div class="handle"><small>Discord</small> @coolbeanz02778</div>
+      <a class="handle" href="https://github.com/infernogod9712" target="_blank" rel="noopener"><small>GitHub</small> infernogod9712</a>
+    </div>
   </section>
 
   <footer>
