@@ -26,7 +26,7 @@
   --maxw:1180px;
 }
 *{box-sizing:border-box}
-html{scroll-behavior:smooth}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;text-size-adjust:100%}
 body{
   margin:0;background:var(--ink);color:var(--bone);
   font-family:var(--body);font-size:16px;line-height:1.7;
@@ -62,6 +62,7 @@ img{max-width:100%;display:block}
 /* ---------- hero ---------- */
 .hero{padding:9rem 0 5rem}
 .hero-grid{display:grid;grid-template-columns:220px 1fr;gap:clamp(1.5rem,4vw,3.5rem);align-items:start}
+.hero-grid > *{min-width:0}
 .photo{position:relative;aspect-ratio:1;background:var(--ink-2);border:1px solid var(--ink-4)}
 .photo::before{
   content:attr(data-mono);position:absolute;inset:0;display:grid;place-items:center;
@@ -99,9 +100,9 @@ img{max-width:100%;display:block}
 .sec-num{font-family:var(--mono);font-size:.68rem;letter-spacing:.2em;color:var(--ember);flex:none}
 .sec-title{
   font-family:var(--display);font-weight:600;text-transform:uppercase;letter-spacing:.01em;
-  font-size:clamp(1.6rem,4vw,2.6rem);line-height:1;margin:0;flex:none
+  font-size:clamp(1.6rem,4vw,2.6rem);line-height:1;margin:0;flex:0 1 auto;min-width:0
 }
-.sec-rule{flex:1;height:1px;background:var(--ink-4);transform-origin:left;transform:scaleX(0);transition:transform .7s cubic-bezier(.2,.7,.3,1)}
+.sec-rule{flex:1;min-width:1.5rem;height:1px;background:var(--ink-4);transform-origin:left;transform:scaleX(0);transition:transform .7s cubic-bezier(.2,.7,.3,1)}
 .reveal.in .sec-rule{transform:scaleX(1)}
 
 .subhead{
@@ -154,24 +155,39 @@ img{max-width:100%;display:block}
 .chip-retired::before{background:none;box-shadow:inset 0 0 0 1px currentColor}
 .chip-dev{color:var(--gold)}
 
-/* gold tier */
-.row-gold{gap:1.5rem;margin-bottom:2.5rem}
-.row-gold .card{
-  background:linear-gradient(170deg,rgba(233,180,76,.11),rgba(233,180,76,.02) 55%),var(--ink-2);
-  border-color:rgba(233,180,76,.42);
+/* medal tiers: gold is first place, silver is second */
+.row-gold{--t-rgb:233,180,76;--t-hi:#FFE9AE;--t-mid:#E9B44C;--t-lo:#9E6B1C}
+.row-silver{--t-rgb:208,215,226;--t-hi:#FFFFFF;--t-mid:#C8CFDA;--t-lo:#6F7885}
+.row-tier{gap:1.5rem;margin-bottom:2.5rem}
+.row-tier .card{
+  overflow:hidden;
+  background:linear-gradient(170deg,rgba(var(--t-rgb),.11),rgba(var(--t-rgb),.02) 55%),var(--ink-2);
+  border-color:rgba(var(--t-rgb),.42);
   padding:2.5rem 2.25rem 2.25rem;
-  box-shadow:0 0 0 1px rgba(233,180,76,.06),0 22px 52px -30px rgba(233,180,76,.6);
+  box-shadow:inset 0 1px 0 rgba(var(--t-rgb),.45),0 0 0 1px rgba(var(--t-rgb),.06),0 22px 52px -30px rgba(var(--t-rgb),.6);
 }
-.row-gold .card:hover{border-color:var(--gold);box-shadow:0 0 0 1px rgba(233,180,76,.18),0 26px 62px -28px rgba(233,180,76,.75)}
-.row-gold .c-av{width:96px;height:96px;border-color:rgba(233,180,76,.4);margin-bottom:1.6rem}
-.row-gold .c-av::before{color:rgba(233,180,76,.3);font-size:1.9rem}
-.row-gold .c-name{font-size:clamp(1.5rem,2.4vw,1.95rem);color:var(--gold);margin-bottom:.45rem}
-.row-gold .c-sub{font-size:.68rem;margin-bottom:1.2rem}
-.row-gold .c-desc{font-size:1rem;margin-bottom:1.9rem;opacity:.9}
+.row-tier .card::after{
+  content:"";position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(115deg,transparent 40%,rgba(var(--t-rgb),.13) 50%,transparent 60%) no-repeat;
+  background-size:250% 100%;background-position:100% 0;transition:background-position .9s ease
+}
+.row-tier .card:hover::after{background-position:0 0}
+.row-tier .card:hover{border-color:var(--t-mid);box-shadow:inset 0 1px 0 rgba(var(--t-rgb),.6),0 0 0 1px rgba(var(--t-rgb),.18),0 26px 62px -28px rgba(var(--t-rgb),.75)}
+.row-tier .c-av{width:96px;height:96px;border-color:rgba(var(--t-rgb),.55);margin-bottom:1.6rem;
+  box-shadow:0 0 0 3px var(--ink-2),0 0 0 4px rgba(var(--t-rgb),.3)}
+.row-tier .c-av::before{color:rgba(var(--t-rgb),.3);font-size:1.9rem}
+.row-tier .c-name{
+  font-size:clamp(1.5rem,2.4vw,1.95rem);margin-bottom:.45rem;color:var(--t-mid);
+  background:linear-gradient(180deg,var(--t-hi) 10%,var(--t-mid) 55%,var(--t-lo));
+  -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent
+}
+.row-tier .c-sub{font-size:.68rem;margin-bottom:1.2rem}
+.row-tier .c-desc{font-size:1rem;margin-bottom:1.9rem;opacity:.9}
 .tier{
-  position:absolute;top:0;right:0;
+  position:absolute;top:0;right:0;z-index:1;
   font-family:var(--mono);font-size:.58rem;letter-spacing:.2em;text-transform:uppercase;
-  color:var(--ink);background:var(--gold);padding:.32rem .6rem;line-height:1
+  color:var(--ink);background:linear-gradient(135deg,var(--t-hi),var(--t-mid) 45%,var(--t-lo));
+  padding:.32rem .6rem;line-height:1
 }
 
 /* roblox banner */
@@ -237,7 +253,7 @@ footer{
   .hero{padding:7rem 0 3.5rem}
   .hero-grid{grid-template-columns:150px 1fr;gap:1.5rem}
   .row-3,.row-2,.links{grid-template-columns:1fr}
-  .row-gold .card{padding:1.5rem}
+  .row-tier .card{padding:1.5rem}
   .roster li{flex-wrap:wrap;gap:.35rem}
   .r-fill{display:none}
   .r-role{text-align:left;flex:1 0 100%}
@@ -247,6 +263,17 @@ footer{
   .photo{max-width:170px}
   .comm li{grid-template-columns:1fr;gap:.5rem}
   .topbar{font-size:.58rem;letter-spacing:.14em}
+  /* small mono labels are unreadable below ~11px on a phone */
+  .eyebrow,.subhead,.sec-num{font-size:.74rem}
+  .roles{font-size:.8rem}
+  .since{font-size:.76rem}
+  .c-sub,.row-tier .c-sub{font-size:.72rem}
+  .chip{font-size:.66rem}
+  .tier{font-size:.64rem}
+  .comm .state{font-size:.7rem}
+  .org a{font-size:.78rem}
+  .handle small{font-size:.66rem}
+  footer{font-size:.7rem}
 }
 @media(prefers-reduced-motion:reduce){
   *{animation:none!important;transition:none!important}
@@ -277,7 +304,7 @@ footer{
         <p class="eyebrow">Who am I</p>
         <h1 class="name">coolbeanz</h1>
         <p class="roles">
-          <span>Bot developer</span><em>/</em><span>Server creator</span><em>/</em><span>Roblox scripter</span><em>/</em><span>Staff manager</span><em>/</em><span>Administrator</span>
+          <span>Bot developer</span><em>/</em><wbr><span>Server creator</span><em>/</em><wbr><span>Roblox scripter</span><em>/</em><wbr><span>Staff manager</span><em>/</em><wbr><span>Administrator</span>
         </p>
         <p class="bio">
           I build the systems that keep SCP roleplay servers running: moderation, HR,
@@ -332,7 +359,27 @@ footer{
 
     <p class="subhead">Discord bots</p>
 
-    <div class="row row-3 row-gold">
+    <div class="row row-2 row-tier row-gold">
+      <article class="card">
+        <span class="tier">NorthGate Studios</span>
+        <div class="c-av" data-mono="NG"><img src="assets/ngc-bot.png" alt="" onerror="this.remove()"></div>
+        <h3 class="c-name">NorthGate OS</h3>
+        <p class="c-sub">NorthGate Studios &middot; Server management</p>
+        <p class="c-desc">The management bot for the main NorthGate server. It runs every ticket type in one place, from commissions and hiring to general questions, and posts the embeds that keep the server looking sharp.</p>
+        <div class="c-foot"><span class="chip chip-live">Active</span></div>
+      </article>
+
+      <article class="card">
+        <span class="tier">NorthGate Studios</span>
+        <div class="c-av" data-mono="NS"><img src="assets/northshield.webp" alt="" onerror="this.remove()"></div>
+        <h3 class="c-name">North Shield</h3>
+        <p class="c-sub">NorthGate Studios &middot; Moderation</p>
+        <p class="c-desc">Anti-larper and anti-spam moderation for the NGC map server, using an AI pass to catch the impersonation attempts that plain keyword filters always miss.</p>
+        <div class="c-foot"><span class="chip chip-live">Active</span></div>
+      </article>
+    </div>
+
+    <div class="row row-3 row-tier row-silver">
       <article class="card">
         <span class="tier">Site-47 stack</span>
         <div class="c-av" data-mono="DA"><img src="assets/site-47-modbot.png" alt="" onerror="this.remove()"></div>
@@ -363,31 +410,13 @@ footer{
 
     <div class="row row-3">
       <article class="card">
-        <div class="c-av" data-mono="NG"><img src="assets/ngc-bot.png" alt="" onerror="this.remove()"></div>
-        <h3 class="c-name">NorthGate OS</h3>
-        <p class="c-sub">NorthGate Studios &middot; Server management</p>
-        <p class="c-desc">The management bot for the main NorthGate server. It runs every ticket type in one place, from commissions and hiring to general questions, and posts the embeds that keep the server looking sharp.</p>
-        <div class="c-foot"><span class="chip chip-live">Active</span></div>
-      </article>
-
-      <article class="card">
-        <div class="c-av" data-mono="NS"><img src="assets/northshield.webp" alt="" onerror="this.remove()"></div>
-        <h3 class="c-name">North Shield</h3>
-        <p class="c-sub">NorthGate Studios &middot; Moderation</p>
-        <p class="c-desc">Anti-larper and anti-spam moderation for the NGC map server, using an AI pass to catch the impersonation attempts that plain keyword filters always miss.</p>
-        <div class="c-foot"><span class="chip chip-live">Active</span></div>
-      </article>
-
-      <article class="card">
         <div class="c-av" data-mono="AO"><img src="assets/arc-32-bot-pfp.png" alt="" onerror="this.remove()"></div>
         <h3 class="c-name">ARC.OS</h3>
         <p class="c-sub">ARC-32 &middot; Full site bot</p>
         <p class="c-desc">The complete administrative bot for ARC-32: server startups, deployments, and the full moderation stack, with every channel and role set through one setup command instead of a config file.</p>
         <div class="c-foot"><span class="chip chip-live">Active</span></div>
       </article>
-    </div>
 
-    <div class="row row-2">
       <article class="card">
         <div class="c-av-pair">
           <div class="c-av" data-mono="BS"><img src="assets/bsch-bot-pfp.png" alt="BSCH" onerror="this.remove()"></div>
