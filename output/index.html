@@ -61,7 +61,13 @@ img{max-width:100%;display:block}
 .wrap{max-width:var(--maxw);margin:0 auto;padding:0 var(--pad);position:relative;z-index:3}
 
 /* ---------- hero ---------- */
-.hero{padding:9rem 0 5rem}
+.hero{padding:6rem 0 4rem}
+/* every section stands as its own screen; safe centring means a section taller
+   than the viewport (Projects) falls back to top-aligned instead of hiding
+   its own heading above the scroll area */
+.hero,.section{min-height:100vh;min-height:100svh;
+  display:flex;flex-direction:column;justify-content:center;justify-content:safe center}
+.hero>*,.section>*{min-width:0}
 .hero-grid{display:grid;grid-template-columns:220px 1fr;gap:clamp(1.5rem,4vw,3.5rem);align-items:start}
 .hero-grid > *{min-width:0}
 .photo{position:relative;aspect-ratio:1;background:var(--ink-2);border:1px solid var(--ink-4)}
@@ -96,7 +102,7 @@ img{max-width:100%;display:block}
 .since b{color:var(--gold);font-weight:500}
 
 /* ---------- sections ---------- */
-.section{padding:4.5rem 0;border-top:1px solid var(--ink-3)}
+.section{padding:5rem 0;border-top:1px solid var(--ink-3)}
 .sec-head{display:flex;align-items:baseline;gap:1.25rem;margin:0 0 2.5rem}
 .sec-num{font-family:var(--mono);font-size:.68rem;letter-spacing:.2em;color:var(--ember);flex:none}
 .sec-title{
@@ -378,10 +384,10 @@ html.js .hero.go .photo::before{opacity:1;transition:opacity .5s ease .5s}
       <span class="sec-rule"></span>
     </div>
     <ul class="roster">
-      <li><span class="r-org" data-a="drop">Vortigen Industries</span><span class="r-fill"></span><span class="r-role" data-a="right">Co-Owner</span></li>
-      <li><span class="r-org" data-a="drop">NorthGate Studios</span><span class="r-fill"></span><span class="r-role" data-a="right">Senior Bot Developer</span></li>
-      <li><span class="r-org" data-a="drop">ARC-32</span><span class="r-fill"></span><span class="r-role" data-a="right">Deputy Administrator</span></li>
-      <li><span class="r-org" data-a="drop">Site-34</span><span class="r-fill"></span><span class="r-role" data-a="right">Secretary of the Vice Administrator</span></li>
+      <li><span class="r-org" data-a="drop">Vortigen Industries</span><span class="r-fill"></span><span class="r-role" data-a="left">Co-Owner</span></li>
+      <li><span class="r-org" data-a="drop">NorthGate Studios</span><span class="r-fill"></span><span class="r-role" data-a="left">Senior Bot Developer</span></li>
+      <li><span class="r-org" data-a="drop">ARC-32</span><span class="r-fill"></span><span class="r-role" data-a="left">Deputy Administrator</span></li>
+      <li><span class="r-org" data-a="drop">Site-34</span><span class="r-fill"></span><span class="r-role" data-a="left">Secretary of the Vice Administrator</span></li>
     </ul>
   </section>
 
@@ -568,7 +574,7 @@ html.js .hero.go .photo::before{opacity:1;transition:opacity .5s ease .5s}
       </li>
     </ul>
     <div class="handles">
-      <div class="handle" data-a="pop"><small>Discord</small> @coolbeanz02778</div>
+      <a class="handle" data-a="pop" href="https://discord.com/users/1410407078643765340" target="_blank" rel="noopener"><small>Discord</small> @coolbeanz02778</a>
       <a class="handle" data-a="pop" href="https://github.com/infernogod9712" target="_blank" rel="noopener"><small>GitHub</small> infernogod9712</a>
     </div>
   </section>
@@ -741,12 +747,19 @@ html.js .hero.go .photo::before{opacity:1;transition:opacity .5s ease .5s}
   }
 
   if(!('IntersectionObserver' in window)){ groups.forEach(show); return }
-  var io = new IntersectionObserver(function(entries){
-    entries.forEach(function(en){
-      if(en.isIntersecting){ show(en.target); io.unobserve(en.target) }
-    });
-  }, { rootMargin: '0px 0px -12% 0px' });
-  groups.forEach(function(g){ io.observe(g) });
+  function watcher(margin){
+    return new IntersectionObserver(function(entries){
+      entries.forEach(function(en){
+        if(en.isIntersecting){ show(en.target); this.unobserve(en.target) }
+      }, this);
+    }, { rootMargin: '0px 0px ' + margin + ' 0px' });
+  }
+  // A full-height section is centred, so its top edge appears long before its
+  // content does. The groups nested inside it are normal-sized and fire early.
+  var ioSection = watcher('-50%'), ioInner = watcher('-15%');
+  groups.forEach(function(g){
+    (g.classList.contains('section') ? ioSection : ioInner).observe(g);
+  });
 })();
 </script>
 </body>
