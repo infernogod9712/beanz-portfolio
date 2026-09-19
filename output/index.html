@@ -8,6 +8,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<script>document.documentElement.className+=" js";</script>
 <style>
 :root{
   --ink:#130C08;
@@ -244,9 +245,53 @@ footer{
   display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap
 }
 
-/* ---------- reveal ---------- */
-.reveal{opacity:0;transform:translateY(18px);transition:opacity .7s ease,transform .7s cubic-bezier(.2,.7,.3,1)}
-.reveal.in{opacity:1;transform:none}
+/* ---------- motion ---------- */
+/* All of this is gated on html.js, so with scripting off the page just shows. */
+html:not(.js) .sec-rule{transform:scaleX(1)}
+
+html.js [data-a]{opacity:0;
+  transition:opacity .5s ease var(--d,0s),transform .62s cubic-bezier(.2,.75,.3,1) var(--d,0s)}
+html.js [data-a="drop"]{transform:translateY(-24px)}
+html.js [data-a="rise"]{transform:translateY(32px)}
+html.js [data-a="left"]{transform:translateX(-24px)}
+html.js [data-a="right"]{transform:translateX(24px)}
+html.js [data-a="pop"]{transform:scale(.78)}
+html.js [data-a].in{opacity:1;transform:none}
+
+/* the dotted leader draws outward from the org name */
+html.js .r-fill{transform:scaleX(0) translateY(-.35em);transform-origin:left;
+  transition:transform .5s cubic-bezier(.2,.75,.3,1) var(--d,0s)}
+html.js .r-fill.in{transform:scaleX(1) translateY(-.35em)}
+/* the lone former posting fades in instead, line and all */
+html.js .former .r-fill{transform:translateY(-.35em);opacity:0;
+  transition:opacity .55s ease var(--d,0s)}
+html.js .former .r-fill.in{opacity:1;transform:translateY(-.35em)}
+
+/* split text: .w keeps a word from breaking, .ch is one character */
+html.js .roles,html.js .bio,html.js .note{opacity:0}
+html.js .roles.ready,html.js .bio.ready,html.js .note.ready{opacity:1}
+.w{display:inline-block}
+.ch{opacity:0}
+.ch.type{transition:opacity .01s linear var(--d,0s)}
+.ch.pop{display:inline-block;transform:translateY(-.55em) scale(.5);
+  transition:opacity .2s ease var(--d,0s),transform .36s cubic-bezier(.2,1.45,.4,1) var(--d,0s)}
+.ch.lit{opacity:1;transform:none}
+
+/* hero photo: the four brackets fly out, then the picture fills the frame */
+html.js .photo{border-color:transparent}
+html.js .photo img{clip-path:inset(50%)}
+html.js .photo::before{opacity:0}
+html.js .photo i{opacity:0}
+html.js .photo i:nth-child(1){transform:translate(34px,34px)}
+html.js .photo i:nth-child(2){transform:translate(-34px,34px)}
+html.js .photo i:nth-child(3){transform:translate(34px,-34px)}
+html.js .photo i:nth-child(4){transform:translate(-34px,-34px)}
+html.js .hero.go .photo{border-color:var(--ink-4);transition:border-color .5s ease .32s}
+html.js .hero.go .photo i{opacity:1;transform:none;
+  transition:opacity .26s ease var(--d,0s),transform .6s cubic-bezier(.2,.9,.3,1) var(--d,0s)}
+html.js .hero.go .photo img{clip-path:inset(0);
+  transition:clip-path .75s cubic-bezier(.3,.85,.3,1) .33s}
+html.js .hero.go .photo::before{opacity:1;transition:opacity .5s ease .5s}
 
 /* ---------- responsive ---------- */
 @media(max-width:900px){
@@ -254,6 +299,10 @@ footer{
   .hero-grid{grid-template-columns:150px 1fr;gap:1.5rem}
   .row-3,.row-2,.links{grid-template-columns:1fr}
   .row-tier .card{padding:1.5rem}
+  html.js .photo i:nth-child(1){transform:translate(22px,22px)}
+  html.js .photo i:nth-child(2){transform:translate(-22px,22px)}
+  html.js .photo i:nth-child(3){transform:translate(22px,-22px)}
+  html.js .photo i:nth-child(4){transform:translate(-22px,-22px)}
   .roster li{flex-wrap:wrap;gap:.35rem}
   .r-fill{display:none}
   .r-role{text-align:left;flex:1 0 100%}
@@ -277,7 +326,12 @@ footer{
 }
 @media(prefers-reduced-motion:reduce){
   *{animation:none!important;transition:none!important}
-  .reveal{opacity:1;transform:none}
+  html.js [data-a],html.js .roles,html.js .bio,html.js .note,.ch{opacity:1!important;transform:none!important}
+  html.js .r-fill,html.js .former .r-fill{transform:scaleX(1) translateY(-.35em)!important;opacity:1!important}
+  html.js .photo{border-color:var(--ink-4)}
+  html.js .photo img{clip-path:none}
+  html.js .photo i{opacity:1;transform:none!important}
+  html.js .photo::before{opacity:1}
   .sec-rule{transform:scaleX(1)}
   html{scroll-behavior:auto}
 }
@@ -301,8 +355,8 @@ footer{
         <img src="assets/my-pfp.webp" alt="coolbeanz" onerror="this.remove()">
       </div>
       <div>
-        <p class="eyebrow">Who am I</p>
-        <h1 class="name">coolbeanz</h1>
+        <p class="eyebrow" data-a="drop">Who am I</p>
+        <h1 class="name" data-a="drop">coolbeanz</h1>
         <p class="roles">
           <span>Bot developer</span><em>/</em><wbr><span>Server creator</span><em>/</em><wbr><span>Roblox scripter</span><em>/</em><wbr><span>Staff manager</span><em>/</em><wbr><span>Administrator</span>
         </p>
@@ -311,35 +365,35 @@ footer{
           ticketing, and the databases behind them. Nine bots shipped, four staff
           postings held, and a Roblox game in development.
         </p>
-        <p class="since">Joined Discord and SCP:RP on <b>27 August 2025</b></p>
+        <p class="since" data-a="drop">Joined Discord and SCP:RP on <b>27 August 2025</b></p>
       </div>
     </div>
   </header>
 
   <!-- ===== CURRENT POSTINGS ===== -->
-  <section class="section reveal">
+  <section class="section reveal" data-sec="postings">
     <div class="sec-head">
-      <span class="sec-num">01</span>
-      <h2 class="sec-title">Current postings</h2>
+      <span class="sec-num" data-a="fade">01</span>
+      <h2 class="sec-title" data-a="fade">Current postings</h2>
       <span class="sec-rule"></span>
     </div>
     <ul class="roster">
-      <li><span class="r-org">Vortigen Industries</span><span class="r-fill"></span><span class="r-role">Co-Owner</span></li>
-      <li><span class="r-org">NorthGate Studios</span><span class="r-fill"></span><span class="r-role">Senior Bot Developer</span></li>
-      <li><span class="r-org">ARC-32</span><span class="r-fill"></span><span class="r-role">Deputy Administrator</span></li>
-      <li><span class="r-org">Site-34</span><span class="r-fill"></span><span class="r-role">Secretary of the Vice Administrator</span></li>
+      <li><span class="r-org" data-a="drop">Vortigen Industries</span><span class="r-fill"></span><span class="r-role" data-a="right">Co-Owner</span></li>
+      <li><span class="r-org" data-a="drop">NorthGate Studios</span><span class="r-fill"></span><span class="r-role" data-a="right">Senior Bot Developer</span></li>
+      <li><span class="r-org" data-a="drop">ARC-32</span><span class="r-fill"></span><span class="r-role" data-a="right">Deputy Administrator</span></li>
+      <li><span class="r-org" data-a="drop">Site-34</span><span class="r-fill"></span><span class="r-role" data-a="right">Secretary of the Vice Administrator</span></li>
     </ul>
   </section>
 
   <!-- ===== FORMER POSTINGS ===== -->
-  <section class="section reveal">
+  <section class="section reveal" data-sec="former">
     <div class="sec-head">
-      <span class="sec-num">02</span>
-      <h2 class="sec-title">Former postings</h2>
+      <span class="sec-num" data-a="fade">02</span>
+      <h2 class="sec-title" data-a="fade">Former postings</h2>
       <span class="sec-rule"></span>
     </div>
     <ul class="roster former">
-      <li><span class="r-org">Site-47</span><span class="r-fill"></span><span class="r-role">Office of the Administrator</span></li>
+      <li><span class="r-org" data-a="fade">Site-47</span><span class="r-fill"></span><span class="r-role" data-a="fade">Office of the Administrator</span></li>
     </ul>
     <p class="note">
       Site-47 is where I learned most of what I know. I served in the Office of the
@@ -350,17 +404,17 @@ footer{
   </section>
 
   <!-- ===== PROJECTS ===== -->
-  <section class="section reveal">
+  <section class="section reveal" data-sec="projects">
     <div class="sec-head">
-      <span class="sec-num">03</span>
-      <h2 class="sec-title">Projects</h2>
+      <span class="sec-num" data-a="fade">03</span>
+      <h2 class="sec-title" data-a="fade">Projects</h2>
       <span class="sec-rule"></span>
     </div>
 
-    <p class="subhead">Discord bots</p>
+    <p class="subhead" data-a="fade">Discord bots</p>
 
-    <div class="row row-3 row-tier row-gold">
-      <article class="card">
+    <div class="row row-3 row-tier row-gold reveal" data-sec="row">
+      <article class="card" data-a="rise">
         <span class="tier">NorthGate Studios</span>
         <div class="c-av" data-mono="NC"><img src="assets/northcore.png" alt="" onerror="this.remove()"></div>
         <h3 class="c-name">NorthCore</h3>
@@ -369,7 +423,7 @@ footer{
         <div class="c-foot"><span class="chip chip-live">Active</span></div>
       </article>
 
-      <article class="card">
+      <article class="card" data-a="rise">
         <span class="tier">NorthGate Studios</span>
         <div class="c-av" data-mono="NO"><img src="assets/northoperations.png" alt="" onerror="this.remove()"></div>
         <h3 class="c-name">NorthOperations</h3>
@@ -378,7 +432,7 @@ footer{
         <div class="c-foot"><span class="chip chip-live">Active</span></div>
       </article>
 
-      <article class="card">
+      <article class="card" data-a="rise">
         <span class="tier">NorthGate Studios</span>
         <div class="c-av" data-mono="NS"><img src="assets/northshield.webp" alt="" onerror="this.remove()"></div>
         <h3 class="c-name">North Shield</h3>
@@ -388,8 +442,8 @@ footer{
       </article>
     </div>
 
-    <div class="row row-3 row-tier row-silver">
-      <article class="card">
+    <div class="row row-3 row-tier row-silver reveal" data-sec="row">
+      <article class="card" data-a="rise">
         <span class="tier">Site-47 stack</span>
         <div class="c-av" data-mono="DA"><img src="assets/site-47-modbot.png" alt="" onerror="this.remove()"></div>
         <h3 class="c-name">Database Administrator</h3>
@@ -398,7 +452,7 @@ footer{
         <div class="c-foot"><span class="chip chip-retired">Retired</span></div>
       </article>
 
-      <article class="card">
+      <article class="card" data-a="rise">
         <span class="tier">Site-47 stack</span>
         <div class="c-av" data-mono="SM"><img src="assets/47-staff-management-bot.png" alt="" onerror="this.remove()"></div>
         <h3 class="c-name">Staff Manager</h3>
@@ -407,7 +461,7 @@ footer{
         <div class="c-foot"><span class="chip chip-retired">Retired</span></div>
       </article>
 
-      <article class="card">
+      <article class="card" data-a="rise">
         <span class="tier">Site-47 stack</span>
         <div class="c-av" data-mono="DG"><img class="av-top" src="assets/site47-guardian.webp" alt="" onerror="this.remove()"></div>
         <h3 class="c-name">Database Guardian</h3>
@@ -417,8 +471,8 @@ footer{
       </article>
     </div>
 
-    <div class="row row-3">
-      <article class="card">
+    <div class="row row-3 reveal" data-sec="row">
+      <article class="card" data-a="rise">
         <div class="c-av" data-mono="AO"><img src="assets/arc-32-bot-pfp.png" alt="" onerror="this.remove()"></div>
         <h3 class="c-name">ARC.OS</h3>
         <p class="c-sub">ARC-32 &middot; Full site bot</p>
@@ -426,7 +480,7 @@ footer{
         <div class="c-foot"><span class="chip chip-live">Active</span></div>
       </article>
 
-      <article class="card">
+      <article class="card" data-a="rise">
         <div class="c-av-pair">
           <div class="c-av" data-mono="BS"><img src="assets/bsch-bot-pfp.png" alt="BSCH" onerror="this.remove()"></div>
           <span class="arrow" aria-hidden="true">&rarr;</span>
@@ -438,7 +492,7 @@ footer{
         <div class="c-foot"><span class="chip chip-live">Active</span></div>
       </article>
 
-      <article class="card">
+      <article class="card" data-a="rise">
         <div class="c-av" data-mono="BA"><img src="assets/beanz-app-pfp.png" alt="" onerror="this.remove()"></div>
         <h3 class="c-name">Beanz.APP</h3>
         <p class="c-sub">Personal &middot; Installs to your account</p>
@@ -447,39 +501,41 @@ footer{
       </article>
     </div>
 
-    <p class="subhead spaced">Current Roblox project</p>
+    <div class="reveal" data-sec="roblox">
+    <p class="subhead spaced" data-a="rise">Current Roblox project</p>
 
-    <a class="banner" href="https://www.roblox.com/games/117233796538643/The-Last-Light" target="_blank" rel="noopener">
+    <a class="banner" data-a="rise" href="https://www.roblox.com/games/117233796538643/The-Last-Light" target="_blank" rel="noopener">
       <span class="chip chip-dev">In development</span>
       <h3>The Last Light</h3>
       <p>A round-based survival game. Players hold a bunker through the night, and every round ends differently depending on what they chose to defend.</p>
       <span class="go">Play on Roblox &rarr;</span>
     </a>
+    </div>
   </section>
 
   <!-- ===== LINKS ===== -->
-  <section class="section reveal">
+  <section class="section reveal" data-sec="links">
     <div class="sec-head">
-      <span class="sec-num">04</span>
-      <h2 class="sec-title">Links</h2>
+      <span class="sec-num" data-a="fade">04</span>
+      <h2 class="sec-title" data-a="fade">Links</h2>
       <span class="sec-rule"></span>
     </div>
     <div class="links">
-      <div class="org">
+      <div class="org" data-a="rise">
         <h3>Vortigen Industries</h3>
         <a href="https://discord.gg/4tcsnJyMgD" target="_blank" rel="noopener"><span>Support server</span><span>&rarr;</span></a>
         <a href="https://vortigernindustries.com" target="_blank" rel="noopener"><span>vortigernindustries.com</span><span>&rarr;</span></a>
       </div>
-      <div class="org">
+      <div class="org" data-a="rise">
         <h3>NorthGate Studios</h3>
         <a href="https://discord.gg/rbF9WWHVkW" target="_blank" rel="noopener"><span>Discord server</span><span>&rarr;</span></a>
         <a href="https://northgate-studios.com/" target="_blank" rel="noopener"><span>northgate-studios.com</span><span>&rarr;</span></a>
       </div>
-      <div class="org">
+      <div class="org" data-a="rise">
         <h3>ARC-32</h3>
         <a href="https://discord.gg/wAgNT29Zqu" target="_blank" rel="noopener"><span>Discord server</span><span>&rarr;</span></a>
       </div>
-      <div class="org">
+      <div class="org" data-a="rise">
         <h3>Site-34</h3>
         <a href="https://discord.gg/Ey6zYtNAMh" target="_blank" rel="noopener"><span>Discord server</span><span>&rarr;</span></a>
       </div>
@@ -487,38 +543,38 @@ footer{
   </section>
 
   <!-- ===== COMMISSIONS ===== -->
-  <section class="section reveal">
+  <section class="section reveal" data-sec="comm">
     <div class="sec-head">
-      <span class="sec-num">05</span>
-      <h2 class="sec-title">How to commission me</h2>
+      <span class="sec-num" data-a="rise">05</span>
+      <h2 class="sec-title" data-a="rise">How to commission me</h2>
       <span class="sec-rule"></span>
     </div>
     <ul class="comm">
       <li class="closed-row">
-        <span class="state closed">Closed</span>
-        <div><h3>Bot commissions</h3><p>I do not take personal bot commissions. Please go through Vortigen Industries.</p></div>
+        <span class="state closed" data-a="left">Closed</span>
+        <div><h3 data-a="left">Bot commissions</h3><p data-a="drop">I do not take personal bot commissions. Please go through Vortigen Industries.</p></div>
       </li>
       <li class="closed-row">
-        <span class="state closed">Closed</span>
-        <div><h3>Server development</h3><p>I do not take personal server development commissions. Please go through Vortigen Industries.</p></div>
+        <span class="state closed" data-a="left">Closed</span>
+        <div><h3 data-a="left">Server development</h3><p data-a="drop">I do not take personal server development commissions. Please go through Vortigen Industries.</p></div>
       </li>
       <li class="closed-row">
-        <span class="state closed">Closed</span>
-        <div><h3>Roblox scripting</h3><p>I do not take Roblox game scripting commissions.</p></div>
+        <span class="state closed" data-a="left">Closed</span>
+        <div><h3 data-a="left">Roblox scripting</h3><p data-a="drop">I do not take Roblox game scripting commissions.</p></div>
       </li>
       <li>
-        <span class="state open">Open</span>
-        <div><h3>Anything else</h3><p>DM me. Be friendly rather than overly professional, otherwise I may decline.</p></div>
+        <span class="state open" data-a="left">Open</span>
+        <div><h3 data-a="left">Anything else</h3><p data-a="drop">DM me. Be friendly rather than overly professional, otherwise I may decline.</p></div>
       </li>
     </ul>
     <div class="handles">
-      <div class="handle"><small>Discord</small> @coolbeanz02778</div>
-      <a class="handle" href="https://github.com/infernogod9712" target="_blank" rel="noopener"><small>GitHub</small> infernogod9712</a>
+      <div class="handle" data-a="pop"><small>Discord</small> @coolbeanz02778</div>
+      <a class="handle" data-a="pop" href="https://github.com/infernogod9712" target="_blank" rel="noopener"><small>GitHub</small> infernogod9712</a>
     </div>
   </section>
 
   <footer>
-    <span>coolbeanz &middot; bot developer</span>
+    <span>Coolbeanz &middot; Developer and Administrator</span>
     <span>Active since 27.08.2025</span>
   </footer>
 
@@ -526,17 +582,171 @@ footer{
 
 <script>
 (function(){
-  var els=document.querySelectorAll(".reveal");
-  if(!("IntersectionObserver" in window)){
-    els.forEach(function(e){e.classList.add("in")});
+  var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function q(sel,c){ return (c||document).querySelector(sel) }
+  function qa(sel,c){ return [].slice.call((c||document).querySelectorAll(sel)) }
+  function d(el,ms){ if(el) el.style.setProperty('--d', Math.round(ms)+'ms'); return ms }
+  function stagger(list,start,step){
+    list.forEach(function(el,i){ d(el, start + i*step) });
+    return start + Math.max(0, list.length-1) * step;
+  }
+
+  // Split text into per-character spans.
+  // 'pop' wraps each word in an inline-block so words never break apart;
+  // 'type' leaves the spans inline, which keeps normal line breaking intact.
+  function split(el, mode){
+    if(!el) return [];
+    var walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT, null, false);
+    var nodes = [], out = [], n;
+    while((n = walker.nextNode())) nodes.push(n);
+    nodes.forEach(function(node){
+      var text = node.nodeValue.replace(/\s+/g,' ');
+      if(nodes.length === 1) text = text.trim();
+      if(!text){ node.nodeValue = ''; return }
+      var frag = document.createDocumentFragment();
+      if(mode === 'pop'){
+        text.split(/(\s+)/).forEach(function(part){
+          if(!part) return;
+          if(/^\s+$/.test(part)){ frag.appendChild(document.createTextNode(part)); return }
+          var w = document.createElement('span'); w.className = 'w';
+          for(var i=0;i<part.length;i++){
+            var c = document.createElement('span');
+            c.className = 'ch pop'; c.textContent = part.charAt(i);
+            w.appendChild(c); out.push(c);
+          }
+          frag.appendChild(w);
+        });
+      } else {
+        for(var i=0;i<text.length;i++){
+          var c = document.createElement('span');
+          c.className = 'ch type'; c.textContent = text.charAt(i);
+          frag.appendChild(c); out.push(c);
+        }
+      }
+      node.parentNode.replaceChild(frag, node);
+    });
+    el.classList.add('ready');
+    return out;
+  }
+  // Commit the pre-animation state before flipping the class, so the
+  // transition actually runs. rAF would do it too, but rAF never fires while
+  // the tab is in the background, which left the whole intro stuck.
+  function flush(){ return document.documentElement.offsetWidth }
+  function light(chars){
+    flush();
+    chars.forEach(function(c){ c.classList.add('lit') });
+  }
+
+  // ── hero, plays once on load ──
+  var hero    = q('.hero');
+  var roleCh  = split(q('.roles'), 'pop');
+  var bioCh   = split(q('.bio'),   'type');
+  var heroBits = [q('.hero .eyebrow'), q('.hero .name'), q('.hero .since')].filter(Boolean);
+
+  stagger(qa('.photo i'), 0, 60);            // brackets fly to the corners
+  d(heroBits[0], 700);                       // WHO AM I drops in
+  d(heroBits[1], 810);                       // coolbeanz drops in
+  var tRoles = stagger(roleCh, 1050, 14);    // roles plop letter by letter
+  var tBio   = stagger(bioCh, tRoles + 160, 6); // bio types out
+  d(heroBits[2], tBio + 120);                // joined-on line lands last
+
+  // ── per-section choreography ──
+  function prep(el){
+    var kind = el.getAttribute('data-sec'), items = [];
+    function add(list, start, step){
+      list.forEach(function(e,i){ d(e, start + i*(step||0)) });
+      items = items.concat(list);
+      return start + Math.max(0, list.length-1) * (step||0);
+    }
+    var head = qa('.sec-num,.sec-title', el);
+
+    if(kind === 'postings'){
+      add(head, 0, 0);
+      var names = qa('.r-org', el), fills = qa('.r-fill', el), roles = qa('.r-role', el);
+      names.forEach(function(nm,i){
+        var t = 240 + i*110;
+        d(nm, t);                 // the name falls from the heading
+        d(fills[i], t + 280);     // the line draws out of the name
+        d(roles[i], t + 760);     // the title arrives once the line is drawn
+      });
+      items = items.concat(names, fills, roles);
+    }
+    else if(kind === 'former'){
+      add(head, 0, 0);
+      var trio = qa('.r-org,.r-fill,.r-role', el);
+      trio.forEach(function(e){ d(e, 260) });
+      items = items.concat(trio);
+      var note = split(q('.note', el), 'type');
+      stagger(note, 780, 6);
+      el._chars = note;
+    }
+    else if(kind === 'projects'){
+      add(head, 0, 0);
+      add(qa('.subhead:not(.spaced)', el), 180, 0);
+    }
+    else if(kind === 'roblox'){ add(qa('[data-a]', el), 0, 160) }
+    else if(kind === 'row'){    add(qa('.card', el), 0, 120) }
+    else if(kind === 'links'){
+      add(head, 0, 0);
+      add(qa('.org', el), 200, 120);
+    }
+    else if(kind === 'comm'){
+      add(head, 0, 0);
+      var lis = qa('.comm li', el);
+      lis.forEach(function(li,i){
+        var t = 220 + i*140;
+        var st = q('.state', li), h3 = q('h3', li), body = q('p', li);
+        d(st, t); d(h3, t + 60); d(body, t + 200);
+        items.push(st, h3, body);
+      });
+      add(qa('.handle', el), 220 + lis.length*140, 130);
+    }
+    el._items = items;
+  }
+
+  var groups = qa('.reveal');
+  groups.forEach(prep);
+
+  function show(el){
+    flush();
+    el.classList.add('in');
+    (el._items || []).forEach(function(e){ e.classList.add('in') });
+    if(el._chars) light(el._chars);
+  }
+
+  function heroGo(){
+    flush();
+    hero.classList.add('go');
+    heroBits.forEach(function(e){ e.classList.add('in') });
+    light(roleCh); light(bioCh);
+  }
+
+  if(reduce){
+    heroGo();
+    groups.forEach(show);
     return;
   }
-  var io=new IntersectionObserver(function(entries){
+
+  // Hold the intro until the tab is actually being looked at, otherwise it
+  // plays to an empty room and the visitor arrives after it is over.
+  if(document.visibilityState === 'hidden'){
+    document.addEventListener('visibilitychange', function once(){
+      if(document.visibilityState === 'visible'){
+        document.removeEventListener('visibilitychange', once);
+        heroGo();
+      }
+    });
+  } else {
+    heroGo();
+  }
+
+  if(!('IntersectionObserver' in window)){ groups.forEach(show); return }
+  var io = new IntersectionObserver(function(entries){
     entries.forEach(function(en){
-      if(en.isIntersecting){en.target.classList.add("in");io.unobserve(en.target)}
-    })
-  },{rootMargin:"0px 0px -12% 0px"});
-  els.forEach(function(e){io.observe(e)});
+      if(en.isIntersecting){ show(en.target); io.unobserve(en.target) }
+    });
+  }, { rootMargin: '0px 0px -12% 0px' });
+  groups.forEach(function(g){ io.observe(g) });
 })();
 </script>
 </body>
